@@ -12,7 +12,7 @@ makeCacheMatrix <- function(x = matrix()) {
   invrs <- NULL
   set <- function(y) {
     x <<- y
-    invrs <- NULL
+    invrs <<- NULL
   }
   get <- function() x
   setinvrs <- function(inverse) invrs <<- inverse
@@ -30,7 +30,7 @@ makeCacheMatrix <- function(x = matrix()) {
 ## and sets the value of the inverse in the cache via the setinvrs function
 
 cacheSolve <- function(x, ...) {
-  invrs <- x$getinvrs
+  invrs <- x$getinvrs()
   if(!is.null(invrs)) {
     message("getting cached data")
     return(invrs)
@@ -40,3 +40,10 @@ cacheSolve <- function(x, ...) {
   x$setinvrs(invrs)
   invrs
 }
+
+## Trial run to see if the functions work
+set.seed(17)
+a <- matrix(rnorm(25), 5, 5)
+a <- makeCacheMatrix(matrix(rnorm(25), 5, 5))
+cacheSolve(a) ## First run with no cached data
+cacheSolve(a) ## Second run
